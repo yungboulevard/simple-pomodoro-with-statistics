@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>Pomodoro method</title>
+
+</head>
+<style>
+    body {
+        display: flex;
+        height: 100vh;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<body>
+
+    <div class="time"></div>
+    <input id = "input" type="text">
+    <div class="">
+    <button id="start">START</button>
+    <button id="stop" onclick="sendtime()">STOP</button>
+    <button id="reset" onclick="sendtime()">RESET</button>
+    <form action="timedata/" target="_blank">
+     <button>Ваши результаты</button>
+    </div>
+    <div>Ваши результаты сохранятся при нажатии на STOP или RESET</div>
+
+    <script src="{% static 'index.js' %}"></script>
+
+    <script>
+        function sendtime(){
+            const timedata = saved_time;
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "saveresult/");
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onload = () => {
+                if (xhr.status == 200) {
+                    console.log(xhr.responseText);
+                } else {
+                    console.log("Server response: ", xhr.statusText);
+                }
+            };
+            xhr.send(timedata)
+
+        };
+    </script>
+</body>
+</html>
